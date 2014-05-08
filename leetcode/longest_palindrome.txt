@@ -1,0 +1,14 @@
+    public String longestPalindrome(String s) {
+        if(s==null || s.length()==0) 
+            return s;
+        String res = "";
+        boolean[][] isPalin = new boolean[s.length()][s.length()];
+        for(int i=s.length()-1;i>=0;i--) 
+            for(int j=i;j<s.length();j++) {
+                if(s.charAt(i)==s.charAt(j) && (j<=i+2 || isPalin[i+1][j-1])) {
+                    isPalin[i][j] = true;
+                    res = j-i+1 > res.length() ? s.substring(i,j+1) : res;
+                }
+            }
+        return res;
+    }

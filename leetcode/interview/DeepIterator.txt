@@ -1,0 +1,41 @@
+public class DeepIterator<T> implements Iterator<T>{
+	private Stack<Iterator<T>> iters; 
+	private T val;
+	public DeepIterator(ArrayList<T> list) {
+		iters = new Stack<Iterator<T>>();
+		iters.push(list.iterator());
+	}
+	
+	public boolean hasNext() {
+		if(iters.isEmpty())
+			return false;
+		Iterator<T> cur = iters.peek();
+		while(cur.hasNext()) {
+			T curval = cur.next();
+			if(curval instanceof ArrayList) {
+				if( ((ArrayList<T>) curval).size()==0)
+					continue;
+				else {
+					iters.push(((ArrayList) curval).iterator());
+					return hasNext();
+				}
+			} else {
+				val = curval;
+				return true;
+			}
+		}
+		iters.pop();
+		return hasNext();
+	}
+	
+	public T next() {
+		if(hasNext())
+			return val;
+		else
+			return null;
+	}
+	
+	public void remove() {
+		
+	}
+}
