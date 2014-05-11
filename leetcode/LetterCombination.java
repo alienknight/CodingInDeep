@@ -1,33 +1,17 @@
+    String[] letters = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
     public ArrayList<String> letterCombinations(String digits) {
-        // Start typing your Java solution below
-        // DO NOT write main() function
-        String[] map = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
-        ArrayList<String> result = new ArrayList<String>();
-        if(digits==null)
-            return result;
-        if(digits.equals("")) {
-            result.add("");
-            return result;
+        if(digits==null) return null;
+        ArrayList<String> res = new ArrayList<String>();
+        if(digits.length()==0) {
+            res.add("");
+            return res;
         }
-        return helper(digits,digits.length()-1,map);
-    }
-    public ArrayList<String> helper(String digits, int count, String[] map) {
-        ArrayList<String> result = new ArrayList<String>();
-        if(count==0) {
-            int cur = Character.getNumericValue(digits.charAt(0));
-            for(int i=0;i<map[cur].length();i++) {
-                result.add(String.valueOf(map[cur].charAt(i)));
-            }
-            return result;
-        }            
-        if(digits.charAt(count)-'0'>=2 && digits.charAt(count)-'0'<=9) {
-            int cur = Character.getNumericValue(digits.charAt(count));
-            for(int j=0;j<map[cur].length();j++) {
-                for(String temp : helper(digits,count-1,map)) {
-                    temp += map[cur].charAt(j);
-                    result.add(temp);
-                }
-            }
-        }
-        return result;
+        String t = null;
+        if(digits.charAt(0)-'2'>=0 && digits.charAt(0)-'9'<=0)
+            t = letters[Character.getNumericValue(digits.charAt(0))];
+        else return letterCombinations(digits.substring(1));
+        for(String temp : letterCombinations(digits.substring(1)))
+            for(int i=0;i<t.length();i++)
+                res.add(String.valueOf(t.charAt(i)) + temp);
+        return res;
     }
