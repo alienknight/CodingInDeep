@@ -65,3 +65,28 @@ public class LRUCache {
         }
     }
 }
+
+// Using LinkedHashMap in java library
+public class LRUCache {
+    int c;
+    Map<Integer, Integer> map;
+    
+    public LRUCache(int capacity) {
+        c = capacity;
+        map = new LinkedHashMap<Integer,Integer>(c,0.75f,true) {
+            protected boolean removeEldestEntry(Map.Entry<Integer,Integer> eldestEntry) {
+                return size() > c;
+            }
+        };
+    }
+    
+    public int get(int key) {
+        if(!map.containsKey(key))
+            return -1;
+        return map.get(key);
+    }
+    
+    public void set(int key, int value) {
+        map.put(key, value);
+    }
+}
